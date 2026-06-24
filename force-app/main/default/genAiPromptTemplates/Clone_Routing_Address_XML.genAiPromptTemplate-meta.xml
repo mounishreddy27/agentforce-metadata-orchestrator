@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>DUF2GuO4nwEs6pmRjRvlG5bxZ659NkMv7Dmty6UIcQk=_4</activeVersionIdentifier>
+    <description>Generates an XML payload to clone Case Settings routing addresses.</description>
+    <developerName>Clone_Routing_Address_XML</developerName>
+    <masterLabel>Clone Routing Address XML</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>You are a Salesforce Metadata API expert. I am providing you with the JSON configuration of an existing Email-to-Case routing address template, along with a new target email address.
+Original Template Settings: {!$Input:OriginalSettings}
+New Email Address: {!$Input:NewEmailAddress}
+Your task is to CLONE this configuration and output a strictly formatted XML payload to update the CaseSettings metadata.
+Rules:
+1. Create a NEW routing address by copying the settings from the template.
+2. Set the &lt;emailAddress&gt; node strictly to the New Email Address provided.
+3. Generate a new, unique &lt;routingName&gt; based on the new email address.
+4. STRIP SYSTEM FIELDS: You must completely remove the &lt;isVerified&gt; and &lt;emailServicesAddress&gt; nodes. Do not include them in your output XML, as they are system-generated and will fail the deployment.
+5. Wrap the output in the exact metadata hierarchy: &lt;CaseSettings&gt; -&gt; &lt;emailToCase&gt; -&gt; &lt;routingAddresses&gt;.
+6. Wrap the entire structure in a valid &lt;updateMetadata&gt; SOAP envelope.
+7. Output ONLY the raw XML string. Do not include markdown or conversational text.
+
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>OriginalSettings</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OriginalSettings</masterLabel>
+            <referenceName>Input:OriginalSettings</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>NewEmailAddress</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>NewEmailAddress</masterLabel>
+            <referenceName>Input:NewEmailAddress</referenceName>
+            <required>false</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Draft</status>
+        <versionIdentifier>DUF2GuO4nwEs6pmRjRvlG5bxZ659NkMv7Dmty6UIcQk=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Salesforce Metadata API expert. I am providing you with the JSON configuration of an existing Email-to-Case routing address template, along with a new target email address.
+Original Template Settings: {!$Input:OriginalSettings} 
+New Email Address: {!$Input:NewEmailAddress}
+Your task is to CLONE this configuration and output a clean JSON object.
+Rules:
+Copy all configurations (priority, owner, etc.) from the template.
+Set the emailAddress property strictly to the New Email Address provided.
+Generate a new, unique routingName based on the new email address.
+STRIP SYSTEM FIELDS: You must completely remove the isVerified and emailServicesAddress properties. Do not include them in your output.
+Output ONLY a valid JSON object. Do not wrap it in XML. Do not include markdown formatting.
+
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>OriginalSettings</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OriginalSettings</masterLabel>
+            <referenceName>Input:OriginalSettings</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>NewEmailAddress</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>NewEmailAddress</masterLabel>
+            <referenceName>Input:NewEmailAddress</referenceName>
+            <required>false</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>DUF2GuO4nwEs6pmRjRvlG5bxZ659NkMv7Dmty6UIcQk=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a Salesforce Metadata API expert. I am providing you with the JSON configuration of an existing Email-to-Case routing address template, along with a list of new target email addresses.
+
+Original Template Settings: {!$Input:OriginalSettings}
+New Email Addresses: {!$Input:NewEmailAddresses}
+
+Your task is to CLONE the configuration for EACH email address provided and output a clean JSON Array containing the new configurations.
+
+Rules for EACH object in the array:
+1. Parse the New Email Addresses into distinct email addresses.
+2. For each distinct email, create a clone of the Original Template Settings.
+3. Copy all configurations (priority, caseOrigin, caseOwner, casePriority, etc.) from the template.
+4. Set the &apos;emailAddress&apos; property strictly to the current target email address.
+5. Generate a new, unique &apos;routingName&apos; based on the new email address (e.g., if the email is &quot;support.user@acme.com&quot;, the routingName could be &quot;EQ_SupportU&quot;).
+6. STRIP SYSTEM FIELDS: You must completely remove the &apos;isVerified&apos; and &apos;emailServicesAddress&apos; properties. Do not include them in your output.
+
+Output format:
+Output ONLY a valid JSON Array containing the generated objects, like this: 
+[ 
+ {&quot;addressType&quot;: &quot;EmailToCase&quot;, &quot;emailAddress&quot;: &quot;one@gen.com&quot;, &quot;routingName&quot;: &quot;One_Gen&quot;, ... }, 
+ {&quot;addressType&quot;: &quot;EmailToCase&quot;, &quot;emailAddress&quot;: &quot;two@gen.com&quot;, &quot;routingName&quot;: &quot;Two_Gen&quot;, ... } 
+]
+Do not wrap the output in XML. Do not include markdown formatting (do not use ```json or ```). Do not include any conversational text or explanations. Output the raw JSON array string only.
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>NewEmailAddress</apiName>
+            <definition>primitive://String</definition>
+            <description>The new email addresses to set up.</description>
+            <masterLabel>New Email Addresses</masterLabel>
+            <referenceName>Input:NewEmailAddresses</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>OriginalSettings</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OriginalSettings</masterLabel>
+            <referenceName>Input:OriginalSettings</referenceName>
+            <required>false</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>DUF2GuO4nwEs6pmRjRvlG5bxZ659NkMv7Dmty6UIcQk=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a strictly deterministic Salesforce Metadata API JSON generator. Your sole function is to clone an existing Email-to-Case routing address JSON template for a list of new target email addresses.
+
+Original Template Settings: {!$Input:OriginalSettings}
+New Email Addresses: {!$Input:NewEmailAddresses}
+
+EXECUTION RULES (Follow exactly):
+1. Parse the &quot;New Email Addresses&quot; list into distinct email strings.
+2. For EACH distinct email address, generate an exact 1:1 clone of the &quot;Original Template Settings&quot; JSON object.
+3. EXACT MAPPING (CRITICAL): You must retain EVERY SINGLE key-value pair from the Original Template Settings. Do NOT summarize. Do NOT drop any fields. Keys like &apos;saveEmailHeaders&apos;, &apos;isPermsetControlled&apos;, and &apos;createTask&apos; MUST be preserved exactly as they appear in the original template.
+4. OVERRIDE &apos;emailAddress&apos;: Update the &apos;emailAddress&apos; property strictly to the current target email address.
+5. GENERATE &apos;routingName&apos;: Create a unique &apos;routingName&apos; based on the email address (e.g., if the email is &quot;support.user@acme.com&quot;, routingName becomes &quot;EQ_SupportU&quot;).
+6. STRIP SYSTEM FIELDS: You must completely remove the &apos;isVerified&apos; and &apos;emailServicesAddress&apos; properties if they exist in the template. Do not output them.
+
+OUTPUT FORMAT:
+- Output ONLY a valid JSON Array of objects containing the new configurations.
+- Example structure: [{&quot;addressType&quot;: &quot;EmailToCase&quot;, &quot;emailAddress&quot;: &quot;one@gen.com&quot;, ... }, {&quot;addressType&quot;: &quot;EmailToCase&quot;, ... }]
+- DO NOT wrap the output in markdown formatting (do NOT use ```json or ```).
+- DO NOT include any conversational text, greetings, or explanations. Output the raw JSON array string only.
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>OriginalSettings</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OriginalSettings</masterLabel>
+            <referenceName>Input:OriginalSettings</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>NewEmailAddress</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>New Email Addresses</masterLabel>
+            <referenceName>Input:NewEmailAddresses</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>DUF2GuO4nwEs6pmRjRvlG5bxZ659NkMv7Dmty6UIcQk=_4</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Allows custom permissions for Agentforce Agent : Email_Routing_Address_Setup_Assistant&apos;s agent user : email_routing_address_setup_assistant@00dgk00000lzgsq583130325.ext.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Email_Routing_Address_Setup_Assistant1141900108 Permissions</label>
+    <license>Einstein Agent</license>
+</PermissionSet>

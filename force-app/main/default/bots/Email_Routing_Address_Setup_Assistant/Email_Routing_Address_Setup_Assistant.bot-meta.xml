@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bot xmlns="http://soap.sforce.com/2006/04/metadata">
+    <agentDSLEnabled>true</agentDSLEnabled>
+    <agentType>EinsteinServiceAgent</agentType>
+    <botMlDomain>
+        <label>Email Routing Address Setup Assistant</label>
+        <name>Email_Routing_Address_Setup_Assistant</name>
+    </botMlDomain>
+    <botSource>None</botSource>
+    <botUser>email_routing_address_setup_assistant@00dgk00000lzgsq583130325.ext</botUser>
+    <description>A headless agent that automates Email-to-Case routing address creation.</description>
+    <label>Email Routing Address Setup Assistant</label>
+    <logPrivateConversationData>false</logPrivateConversationData>
+    <richContentEnabled>true</richContentEnabled>
+    <sessionTimeout>0</sessionTimeout>
+    <type>ExternalCopilot</type>
+</Bot>

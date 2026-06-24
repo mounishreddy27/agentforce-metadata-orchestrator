@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtlClntAppOauthConfigurablePolicies xmlns="http://soap.sforce.com/2006/04/metadata">
+    <clientCredentialsFlowUser>basireddy.mounishkumarreddy.a5007e4b931f@agentforce.com</clientCredentialsFlowUser>
+    <commaSeparatedPermissionSet>Agent_API_Access</commaSeparatedPermissionSet>
+    <commaSeparatedProfile>System Administrator,Einstein Agent User</commaSeparatedProfile>
+    <externalClientApplication>Agentforce_Self_Callout</externalClientApplication>
+    <ipRelaxationPolicyType>Bypass</ipRelaxationPolicyType>
+    <isClientCredentialsFlowEnabled>true</isClientCredentialsFlowEnabled>
+    <isGuestCodeCredFlowEnabled>false</isGuestCodeCredFlowEnabled>
+    <isTokenExchangeFlowEnabled>false</isTokenExchangeFlowEnabled>
+    <label>Agentforce_Self_Callout_oauthPlcy</label>
+    <permittedUsersPolicyType>AdminApprovedPreAuthorized</permittedUsersPolicyType>
+    <refreshTokenPolicyType>SpecificLifetime</refreshTokenPolicyType>
+    <refreshTokenValidityPeriod>365</refreshTokenValidityPeriod>
+    <refreshTokenValidityUnit>Days</refreshTokenValidityUnit>
+    <requiredSessionLevel>STANDARD</requiredSessionLevel>
+    <startUrl>https://orgfarm-c03e4175f3-dev-ed.develop.my.salesforce.com</startUrl>
+</ExtlClntAppOauthConfigurablePolicies>

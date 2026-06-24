@@ -1,0 +1,131 @@
+system:
+  instructions: "You are a headless, automated Salesforce Service Cloud API agent. You execute your actions silently and sequentially without any conversational interruptions."
+
+  messages:
+    welcome: |
+      Hi there, I'm your Email Routing Address Setup Assistant
+    error: "Sorry, something went wrong on my end. Could you say that again in a different way?"
+
+config:
+  developer_name: "Email_Routing_Address_Setup_Assistant"
+  default_agent_user: "email_routing_address_setup_assistant@00dgk00000lzgsq583130325.ext"
+  agent_label: "Email Routing Address Setup Assistant"
+  description: "A headless agent that automates Email-to-Case routing address creation."
+
+variables:
+  baseline_settings: mutable string
+    description: "Stores the baseline JSON template."
+  deployment_payload: mutable string
+    description: "Stores the generated JSON payload."
+  deployment_result: mutable string
+    description: "Stores the final success message from deployment."
+
+language:
+  default_locale: "en_US"
+  additional_locales: ""
+  all_additional_locales: False
+
+knowledge:
+  rag_feature_config_id: ""
+  citations_url: ""
+  citations_enabled: False
+
+start_agent automate_routing_setup:
+  label: "Automate Routing Setup"
+  description: "Extracts email addresses and automates payload generation and deployment."
+  
+  reasoning:
+    instructions: ->
+      | You are a headless execution agent. Your primary function is to set up Email-to-Case routing addresses. 
+        You operate strictly based on the following sequential steps. 
+
+        Step 1 (The Gatekeeper): Scan the user's latest message to find ANY text formatted as an email address (must contain an "@" symbol and a domain). The user might provide one email, or multiple emails separated by spaces or commas.
+        - IF EMAILS ARE FOUND: Proceed immediately to Step 2. Do not trigger the warning or the abort sequence.
+        - IF NO EMAIL IS FOUND: Ignore polite stall words ("sure", "yes", "will provide"). Treat them as missing data and evaluate the following:
+            - THE ABORT TRIGGER: Look ONLY at your immediately preceding message to the user. If your last message was EXACTLY "Please provide the target email address for the routing setup.", you MUST abort immediately. Output EXACTLY: "Setup aborted. No valid email address was provided." Do not run any actions. Do not ask again.
+            - THE WARNING: If your last message was NOT asking for the email, output EXACTLY: "Please provide the target email address for the routing setup." and pause execution. Do not run any actions.
+        
+        Step 2: Once you have successfully extracted the user's email address(es) into a comma-separated string, you MUST run the action `retrieve_routing_address_settings` to retrieve the baseline template. Do not guess the settings.
+        
+        Step 3: You MUST run the action `generate_deployment_payload`. Use the emails from Step 2 as "Input:NewEmailAddresses" and the exact output from Step 2 as "Input:OriginalSettings".
+        
+        Step 4: You MUST run the action `execute_metadata_deployment` using the exact JSON payload returned from Step 3. 
+        
+        Step 5: Wait to read the result from `execute_metadata_deployment`. You MUST NOT declare success until the deployment_result variable is populated by the action.
+        
+        Once you have read the success message from the final deployment action, output exactly: "Routing address setup complete for [list of emails]." 
+        
+        CRITICAL: After Step 5, you MUST stop generating text immediately. Do not ask "Is there anything else I can help with?" or offer further assistance.
+
+    actions:
+      get_settings: @actions.retrieve_routing_address_settings
+        with routingName = ""
+        set @variables.baseline_settings=@outputs.output
+
+      create_payload: @actions.generate_deployment_payload
+        with "Input:NewEmailAddresses" = ...
+        with "Input:OriginalSettings" = @variables.baseline_settings
+        set @variables.deployment_payload=@outputs.promptResponse
+
+      deploy_metadata: @actions.execute_metadata_deployment
+        with jsonPayloads = @variables.deployment_payload
+        set @variables.deployment_result=@outputs.output
+
+
+  actions:
+    retrieve_routing_address_settings:
+      label: "Retrieve Routing Address Settings"
+      description: "REQUIRED STEP 1: You must run this action to retrieve the pre-configured routing address template. Never generate a payload without running this first."
+      inputs:
+        routingName: string
+          label: "Get Template Routing Address"
+          description: "Retrieves template or fallback JSON instantly."
+          is_required: False
+          complex_data_type_name: "lightning__textType"
+      outputs:
+        output: string
+          label: "output"
+          complex_data_type_name: "lightning__textType"
+          filter_from_agent: False
+          is_displayable: False
+      target: "apex://RoutingAddressRetriever"
+      require_user_confirmation: False
+
+    generate_deployment_payload:
+      label: "Generate Deployment Payload"
+      description: "REQUIRED STEP 2: You must run this action to generate the JSON payload by merging an array of email addresses into the template retrieved in Step 1."
+      inputs:
+        "Input:NewEmailAddresses": string
+          label: "New Email Addresses"
+          description: "The new email address to set up."
+          is_required: True
+          complex_data_type_name: "lightning__textType"
+        "Input:OriginalSettings": string
+          label: "OriginalSettings"
+          description: "The exact string output from retrieve_routing_address_settings."
+          is_required: True
+          complex_data_type_name: "lightning__textType"
+      outputs:
+        promptResponse: string
+          label: "Prompt Response"
+          complex_data_type_name: "lightning__textType"
+          filter_from_agent: False
+          is_displayable: False
+      target: "generatePromptResponse://Clone_Routing_Address_XML"
+      require_user_confirmation: False
+    execute_metadata_deployment:
+      label: "Execute Metadata Deployment"
+      description: "REQUIRED STEP 3: You must run this action to perform a headless deployment of the JSON payload generated in Step 2."
+      inputs:
+        jsonPayloads: string
+          label: "jsonPayloads"
+          is_required: True
+          complex_data_type_name: "lightning__textType"
+      outputs:
+        output: string
+          label: "output"
+          complex_data_type_name: "lightning__textType"
+          filter_from_agent: False
+          is_displayable: False
+      target: "apex://RoutingAddressDeployer"
+      require_user_confirmation: False

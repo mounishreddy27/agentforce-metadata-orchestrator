@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bot xmlns="http://soap.sforce.com/2006/04/metadata">
+    <agentDSLEnabled>true</agentDSLEnabled>
+    <agentType>AgentforceEmployeeAgent</agentType>
+    <botMlDomain>
+        <label>EA Email Routing Address</label>
+        <name>EA_Email_Routing_Address</name>
+    </botMlDomain>
+    <botSource>None</botSource>
+    <description>A headless agent that automates Email-to-Case routing address creation.</description>
+    <label>EA Email Routing Address</label>
+    <logPrivateConversationData>false</logPrivateConversationData>
+    <richContentEnabled>true</richContentEnabled>
+    <sessionTimeout>0</sessionTimeout>
+    <type>InternalCopilot</type>
+</Bot>
